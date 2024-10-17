@@ -1,15 +1,13 @@
-package com.ecoFin.EcoFin.domain.users;
+package com.ecoFin.EcoFin.domain.user.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import com.ecoFin.EcoFin.domain.user.entity.User;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Data
-@Builder
-public class UserResponseDTO {
-    private Long id;
+@Getter
+public class UserRequestDTO {
     private String name;
     private String lastName;
     private Date birthDate;
@@ -17,9 +15,8 @@ public class UserResponseDTO {
     private String password;
     private BigDecimal salary;
 
-    public static UserResponseDTO fromUser(User user) {
-        return UserResponseDTO.builder()
-                .id(user.getId())
+    public static User newUser(UserRequestDTO user) {
+        return User.builder()
                 .name(user.getName())
                 .lastName(user.getLastName())
                 .birthDate(user.getBirthDate())

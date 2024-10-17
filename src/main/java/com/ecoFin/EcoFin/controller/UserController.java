@@ -1,10 +1,11 @@
 package com.ecoFin.EcoFin.controller;
 
-import com.ecoFin.EcoFin.domain.users.User;
-import com.ecoFin.EcoFin.domain.users.UserRequestDTO;
-import com.ecoFin.EcoFin.domain.users.UserResponseDTO;
+import com.ecoFin.EcoFin.domain.user.dto.UserRequestDTO;
+import com.ecoFin.EcoFin.domain.user.dto.UserResponseDTO;
 import com.ecoFin.EcoFin.repository.UserRepository;
+import com.ecoFin.EcoFin.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private UserService service;
 
     @GetMapping
     public List<UserResponseDTO> getAllUsers() {
@@ -25,9 +28,17 @@ public class UserController {
     }
 
     @PostMapping
-    public void saveUser(@RequestBody UserRequestDTO data) {
-        var user = UserRequestDTO.newUser(data);
-        repository.save(user);
-        return;
+    public ResponseEntity<?> saveUser(@RequestBody UserRequestDTO data) {
+        return service.saveUser(UserRequestDTO.newUser(data));
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> updateUserById(@PathVariable("userId") Long userId, @RequestBody UserRequestDTO data) {
+        return service.updateUserById(userId, UserRequestDTO.newUser(data));
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUserById(@PathVariable("userId") Long userId) {
+        return service.deleteUserById(userId);
     }
 }
