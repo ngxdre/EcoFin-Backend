@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Getter
 public class UserRequestDTO {
+    private Long id;
     private String name;
     private String lastName;
     private Date birthDate;

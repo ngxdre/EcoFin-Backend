@@ -1,10 +1,7 @@
 package com.ecoFin.EcoFin.domain.user.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -20,18 +17,19 @@ import java.util.Date;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
+    @NotBlank(message = "Nome deve ser preenchido")
     private String name;
-    @NotBlank
+    @NotBlank(message = "Úlitimo nome deve ser preenchido")
     private String lastName;
-    @NotNull
+    @NotNull(message = "Data de nascimento deve ser preenchida")
     @Past
     private Date birthDate;
     @Email
-    @NotBlank
+    @NotBlank(message = "E-mail deve ser preenchido")
     private String email;
-    @NotBlank
+    @NotBlank(message = "Senha deve ser preenchida")
     private String password;
-    @NotNull
+    @NotNull(message = "Salário deve ser preenchido")
+    @Min(0)
     private BigDecimal salary;
 }
