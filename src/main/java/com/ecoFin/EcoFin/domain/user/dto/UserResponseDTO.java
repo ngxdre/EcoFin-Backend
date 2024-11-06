@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -13,7 +13,7 @@ public class UserResponseDTO {
     private Long id;
     private String name;
     private String lastName;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String email;
     private String password;
     private BigDecimal salary;
