@@ -3,13 +3,13 @@ package com.ecoFin.EcoFin.service.user;
 import com.ecoFin.EcoFin.domain.user.dto.UserRequestDTO;
 import com.ecoFin.EcoFin.domain.user.dto.UserResponseDTO;
 import com.ecoFin.EcoFin.domain.user.entity.User;
+import com.ecoFin.EcoFin.infra.security.TokenService;
 import com.ecoFin.EcoFin.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,7 +18,10 @@ import java.util.stream.Collectors;
 public class UserService {
     @Autowired
     private UserRepository repository;
-    private PasswordEncoder encoder = new BCryptPasswordEncoder();
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private PasswordEncoder encoder;
 
     public List<UserResponseDTO> listAllUsers() {
         return repository.findAll()
@@ -28,10 +31,7 @@ public class UserService {
     }
 
     public Optional<User> getUserById(Long id) {
-        if (!repository.existsById(id)) {
-            return Optional.empty();
-        }
-
+        if (!repository.existsById(id)) return Optional.empty();
         return repository.findById(id);
     }
 
@@ -40,10 +40,15 @@ public class UserService {
         return repository.save(user);
     }
 
-    public Optional<User> updateUserById(Long id, User user) {
-        if(!repository.existsById(id)) {
-            return Optional.empty();
-        }
+    public Optional<User> updateUserById(Long id, UserRequestDTO request) {
+        if(!repository.existsById(id)) return Optional.empty();
+
+        if (repository.findByEmail(request.getEmail()).isEmpty()) return Optional.empty();
+
+        User userDB = repository.findByEmail(request.getEmail()).get();
+        User user = UserRequestDTO.newUser(request);
+
+        if (!user.getEmail().equals(userDB.getEmail())) return Optional.empty();
 
         user.setId(id);
         user.setPassword(encoder.encode(user.getPassword()));
@@ -52,11 +57,18 @@ public class UserService {
     }
 
     public boolean deleteUserById(Long id) {
-        if(!repository.existsById(id)) {
-            return false;
-        }
-
+        if(!repository.existsById(id)) return false;
         repository.deleteById(id);
         return true;
+    }
+
+    public String login(UserRequestDTO request) {
+        Optional<User> userByEmail = repository.findByEmail(request.getEmail());
+        if (userByEmail.isEmpty()) return null;
+
+        User user = userByEmail.get();
+        if (!encoder.matches(request.getPassword(), user.getPassword())) return null;
+
+        return tokenService.generateToken(request);
     }
 }

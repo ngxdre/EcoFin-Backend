@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Table(name = "users")
 @Entity(name = "users")
@@ -23,7 +23,7 @@ public class User {
     private String lastName;
     @NotNull(message = "Data de nascimento deve ser preenchida")
     @Past
-    private Date birthDate;
+    private LocalDate birthDate;
     @Email
     @NotBlank(message = "E-mail deve ser preenchido")
     private String email;

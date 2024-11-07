@@ -3,7 +3,6 @@ package com.ecoFin.EcoFin.controller;
 import com.ecoFin.EcoFin.domain.user.dto.UserRequestDTO;
 import com.ecoFin.EcoFin.domain.user.dto.UserResponseDTO;
 import com.ecoFin.EcoFin.domain.user.entity.User;
-import com.ecoFin.EcoFin.repository.UserRepository;
 import com.ecoFin.EcoFin.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("users")
 public class UserController {
-    @Autowired
-    private UserRepository repository;
     @Autowired
     private UserService service;
 
@@ -40,7 +37,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<Void> updateUserById(@PathVariable("userId") Long userId, @Valid @RequestBody UserRequestDTO data) {
-        Optional<User> user = service.updateUserById(userId, UserRequestDTO.newUser(data));
+        Optional<User> user = service.updateUserById(userId, data);
         return user.isPresent() ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
@@ -48,5 +45,11 @@ public class UserController {
     public ResponseEntity<Void> deleteUserById(@PathVariable("userId") Long userId) {
         boolean deleted = service.deleteUserById(userId);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserRequestDTO user){
+        String token = service.login(user);
+        return token == null ? ResponseEntity.notFound().build() : ResponseEntity.ok().body(token);
     }
 }

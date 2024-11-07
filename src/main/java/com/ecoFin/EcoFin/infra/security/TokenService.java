@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.ecoFin.EcoFin.domain.user.dto.UserRequestDTO;
 import com.ecoFin.EcoFin.domain.user.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,9 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String generateToken(User user){
+    public String generateToken(UserRequestDTO user){
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
-
             String token = JWT.create()
                     .withIssuer("login-auth-api")
                     .withSubject(user.getEmail())
@@ -30,7 +30,7 @@ public class TokenService {
             return token;
 
         }catch (JWTCreationException exception){
-            throw new RuntimeException("Error while authenticating");
+            throw new RuntimeException("Error while creating token");
         }
     }
 
@@ -46,7 +46,6 @@ public class TokenService {
             return null;
         }
     }
-
 
     private Instant generateExpirationDate(){
         return LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).plusHours(2).toInstant(ZoneOffset.of("-3"));
