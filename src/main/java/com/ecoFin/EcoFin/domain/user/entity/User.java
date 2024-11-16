@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(of="id")
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @NotBlank(message = "Nome deve ser preenchido")
     private String name;
     @NotBlank(message = "Úlitimo nome deve ser preenchido")
@@ -29,7 +29,7 @@ public class User {
     private String email;
     @NotBlank(message = "Senha deve ser preenchida")
     private String password;
-    @NotNull(message = "Salário deve ser preenchido")
+    @NotNull(message = "Saldo deve ser preenchido")
     @Min(0)
-    private BigDecimal salary;
+    private BigDecimal balance;
 }
