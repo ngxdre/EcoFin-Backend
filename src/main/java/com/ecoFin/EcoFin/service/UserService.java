@@ -1,15 +1,15 @@
-package com.ecoFin.EcoFin.service.user;
+package com.ecoFin.EcoFin.service;
 
 import com.ecoFin.EcoFin.domain.user.dto.UserRequestDTO;
 import com.ecoFin.EcoFin.domain.user.dto.UserResponseDTO;
 import com.ecoFin.EcoFin.domain.user.entity.User;
 import com.ecoFin.EcoFin.infra.security.TokenService;
 import com.ecoFin.EcoFin.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +30,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> getUserById(long id) {
         if (!repository.existsById(id)) return Optional.empty();
         return repository.findById(id);
     }
@@ -40,7 +40,7 @@ public class UserService {
         return repository.save(user);
     }
 
-    public Optional<User> updateUserById(Long id, UserRequestDTO request) {
+    public Optional<User> updateUserById(long id, UserRequestDTO request) {
         if(!repository.existsById(id)) return Optional.empty();
 
         if (repository.findByEmail(request.getEmail()).isEmpty()) return Optional.empty();
@@ -56,7 +56,7 @@ public class UserService {
         return Optional.of(repository.save(user));
     }
 
-    public boolean deleteUserById(Long id) {
+    public boolean deleteUserById(long id) {
         if(!repository.existsById(id)) return false;
         repository.deleteById(id);
         return true;

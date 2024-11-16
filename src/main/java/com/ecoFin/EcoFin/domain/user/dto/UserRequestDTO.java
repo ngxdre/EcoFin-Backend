@@ -8,13 +8,13 @@ import java.time.LocalDate;
 
 @Getter
 public class UserRequestDTO {
-    private Long id;
+    private long id;
     private String name;
     private String lastName;
     private LocalDate birthDate;
     private String email;
     private String password;
-    private BigDecimal salary;
+    private BigDecimal balance;
 
     public static User newUser(UserRequestDTO user) {
         return User.builder()
@@ -23,7 +23,7 @@ public class UserRequestDTO {
                 .birthDate(user.getBirthDate())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .salary(user.getSalary())
+                .balance(user.getBalance())
                 .build();
     }
 }

@@ -3,7 +3,8 @@ package com.ecoFin.EcoFin.controller;
 import com.ecoFin.EcoFin.domain.user.dto.UserRequestDTO;
 import com.ecoFin.EcoFin.domain.user.dto.UserResponseDTO;
 import com.ecoFin.EcoFin.domain.user.entity.User;
-import com.ecoFin.EcoFin.service.user.UserService;
+import com.ecoFin.EcoFin.service.UserService;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable("userId") Long id) {
-        Optional<User> user = service.getUserById(id);
+    public ResponseEntity<?> getUserById(@PathVariable("userId") long userId) {
+        Optional<User> user = service.getUserById(userId);
         return user.isPresent() ? ResponseEntity.ok().body(user) : ResponseEntity.notFound().build();
     }
 
@@ -36,13 +37,13 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<Void> updateUserById(@PathVariable("userId") Long userId, @Valid @RequestBody UserRequestDTO data) {
+    public ResponseEntity<Void> updateUserById(@PathVariable("userId") long userId, @Valid @RequestBody UserRequestDTO data) {
         Optional<User> user = service.updateUserById(userId, data);
         return user.isPresent() ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable("userId") Long userId) {
+    public ResponseEntity<Void> deleteUserById(@PathVariable("userId") long userId) {
         boolean deleted = service.deleteUserById(userId);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
