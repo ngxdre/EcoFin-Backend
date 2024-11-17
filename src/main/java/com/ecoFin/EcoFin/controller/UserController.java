@@ -20,31 +20,31 @@ public class UserController {
     private UserService service;
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> listAllUsers() {
-        return ResponseEntity.ok().body(service.listAllUsers());
+    public ResponseEntity<List<UserResponseDTO>> listAll() {
+        return ResponseEntity.ok().body(service.listAll());
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable("userId") long userId) {
-        Optional<User> user = service.getUserById(userId);
+    public ResponseEntity<?> getById(@PathVariable("userId") long id) {
+        Optional<User> user = service.getById(id);
         return user.isPresent() ? ResponseEntity.ok().body(user) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveUser(@Valid @RequestBody UserRequestDTO data) {
-        service.saveUser(UserRequestDTO.newUser(data));
+    public ResponseEntity<Void> save(@Valid @RequestBody UserRequestDTO data) {
+        service.save(UserRequestDTO.newUser(data));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<Void> updateUserById(@PathVariable("userId") long userId, @Valid @RequestBody UserRequestDTO data) {
-        Optional<User> user = service.updateUserById(userId, data);
+    public ResponseEntity<Void> updateById(@PathVariable("userId") long id, @Valid @RequestBody UserRequestDTO data) {
+        Optional<User> user = service.updateById(id, data);
         return user.isPresent() ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable("userId") long userId) {
-        boolean deleted = service.deleteUserById(userId);
+    public ResponseEntity<Void> deleteById(@PathVariable("userId") long id) {
+        boolean deleted = service.deleteById(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 

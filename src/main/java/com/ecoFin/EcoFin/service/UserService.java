@@ -23,24 +23,24 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public List<UserResponseDTO> listAllUsers() {
+    public List<UserResponseDTO> listAll() {
         return repository.findAll()
                 .stream()
                 .map(UserResponseDTO::fromUser)
                 .collect(Collectors.toList());
     }
 
-    public Optional<User> getUserById(long id) {
+    public Optional<User> getById(long id) {
         if (!repository.existsById(id)) return Optional.empty();
         return repository.findById(id);
     }
 
-    public User saveUser(User user) {
+    public User save(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         return repository.save(user);
     }
 
-    public Optional<User> updateUserById(long id, UserRequestDTO request) {
+    public Optional<User> updateById(long id, UserRequestDTO request) {
         if(!repository.existsById(id)) return Optional.empty();
 
         if (repository.findByEmail(request.getEmail()).isEmpty()) return Optional.empty();
@@ -56,7 +56,7 @@ public class UserService {
         return Optional.of(repository.save(user));
     }
 
-    public boolean deleteUserById(long id) {
+    public boolean deleteById(long id) {
         if(!repository.existsById(id)) return false;
         repository.deleteById(id);
         return true;

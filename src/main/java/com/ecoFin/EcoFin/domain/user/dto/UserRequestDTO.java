@@ -14,7 +14,7 @@ public class UserRequestDTO {
     private LocalDate birthDate;
     private String email;
     private String password;
-    private BigDecimal balance;
+    private double balance;
 
     public static User newUser(UserRequestDTO user) {
         return User.builder()

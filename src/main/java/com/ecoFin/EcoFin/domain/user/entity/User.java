@@ -17,19 +17,22 @@ import java.time.LocalDate;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @NotBlank(message = "Nome deve ser preenchido")
     private String name;
+
     @NotBlank(message = "Úlitimo nome deve ser preenchido")
     private String lastName;
-    @NotNull(message = "Data de nascimento deve ser preenchida")
-    @Past
+
+    @NotNull(message = "Data de nascimento deve ser preenchida") @Past
     private LocalDate birthDate;
-    @Email
-    @NotBlank(message = "E-mail deve ser preenchido")
+
+    @Email @NotBlank(message = "E-mail deve ser preenchido")
     private String email;
+
     @NotBlank(message = "Senha deve ser preenchida")
     private String password;
-    @NotNull(message = "Saldo deve ser preenchido")
-    @Min(0)
-    private BigDecimal balance;
+
+    @NotNull(message = "Saldo deve ser preenchido") @Min(0)
+    private double balance;
 }

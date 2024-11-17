@@ -17,23 +17,23 @@ public class TransactionTypeService {
     @Autowired
     private TransactionTypeRepository repository;
 
-    public List<TransactionTypeResponseDTO> listAllTransactionTypes() {
+    public List<TransactionTypeResponseDTO> listAll() {
         return repository.findAll()
                 .stream()
                 .map(TransactionTypeResponseDTO::fromTransactionType)
                 .collect(Collectors.toList());
     }
 
-    public Optional<TransactionType> getTransactionTypeById(long id) {
+    public Optional<TransactionType> getById(long id) {
         if (!repository.existsById(id)) return Optional.empty();
         return repository.findById(id);
     }
 
-    public TransactionType saveTransactionType(TransactionType transactionType) {
+    public TransactionType save(TransactionType transactionType) {
         return repository.save(transactionType);
     }
 
-    public Optional<TransactionType> updateTransactionTypeById(long id, TransactionTypeRequestDTO request) {
+    public Optional<TransactionType> updateById(long id, TransactionTypeRequestDTO request) {
         if (!repository.existsById(id)) return Optional.empty();
 
         TransactionType transactionType = TransactionTypeRequestDTO.newTransactionType(request);
@@ -42,7 +42,7 @@ public class TransactionTypeService {
         return Optional.of(repository.save(transactionType));
     }
 
-    public boolean deleteTransactionTypeById(long id) {
+    public boolean deleteById(long id) {
         if(!repository.existsById(id)) return false;
         repository.deleteById(id);
         return true;

@@ -20,31 +20,34 @@ public class CategoryController {
     private CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDTO>> listAllCategories() {
-        return ResponseEntity.ok().body(service.listAllCategories());
+    public ResponseEntity<List<CategoryResponseDTO>> listAll() {
+        return ResponseEntity.ok().body(service.listAll());
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<?> getCategoryById(@PathVariable("categoryId") long categoryId) {
-        Optional<Category> category = service.getCategoryById(categoryId);
+    public ResponseEntity<?> getById(@PathVariable("categoryId") long categoryId) {
+        Optional<Category> category = service.getById(categoryId);
         return category.isPresent() ? ResponseEntity.ok().body(category) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveCategory(@Valid @RequestBody CategoryRequestDTO data) {
-        service.saveCategory(CategoryRequestDTO.newCategory(data));
+    public ResponseEntity<Void> save(@Valid @RequestBody CategoryRequestDTO data) {
+        service.save(CategoryRequestDTO.newCategory(data));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{categoryId}")
-    public ResponseEntity<Void> updateCategoryById(@PathVariable("categoryId") long categoryId, @Valid @RequestBody CategoryRequestDTO data) {
-        Optional<Category> category = service.updateCategoryById(categoryId, data);
+    public ResponseEntity<Void> updateById(
+            @PathVariable("categoryId") long categoryId,
+            @Valid @RequestBody CategoryRequestDTO data
+    ) {
+        Optional<Category> category = service.updateById(categoryId, data);
         return category.isPresent() ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{categoryId}")
-    public ResponseEntity<Void> deleteCategoryIdById(@PathVariable("categoryId") long categoryId) {
-        boolean deleted = service.deleteCategoryById(categoryId);
+    public ResponseEntity<Void> deleteById(@PathVariable("categoryId") long categoryId) {
+        boolean deleted = service.deleteById(categoryId);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

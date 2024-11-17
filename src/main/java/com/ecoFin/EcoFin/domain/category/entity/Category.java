@@ -22,5 +22,5 @@ public class Category {
 
     @NotNull(message = "Orçamento deve ser preenchido")
     @Min(0)
-    private BigDecimal budget;
+    private double budget;
 }
