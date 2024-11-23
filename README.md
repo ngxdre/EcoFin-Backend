@@ -57,7 +57,7 @@
 
 ## Acesso ao projeto
 
-Você pode [acessar o código fonte do projeto](https://github.com/ngxdre/EcoFin-Backend) ou [acessa-lo (Em desenvolvimento...)](link).
+Você pode [acessar o código fonte do projeto](https://github.com/ngxdre/EcoFin-Backend) ou [acessa-lo (Em desenvolvimento...)]([link](https://github.com/ngxdre/Ecofin-Frontend)).
 
 <br>
 
