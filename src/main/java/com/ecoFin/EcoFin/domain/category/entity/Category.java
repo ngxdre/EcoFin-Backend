@@ -1,5 +1,6 @@
 package com.ecoFin.EcoFin.domain.category.entity;
 
+import com.ecoFin.EcoFin.domain.user.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -17,10 +18,15 @@ public class Category {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Descrição deve ser preenchida")
+    @NotBlank(message = "A category must have a description")
     private String description;
 
-    @NotNull(message = "Orçamento deve ser preenchido")
+    @NotNull(message = "A category must have a budget")
     @Min(0)
     private double budget;
+
+    @NotNull(message = "A category must have a user")
+    @ManyToOne
+    @JoinColumn(name = "fk_user")
+    private User user;
 }

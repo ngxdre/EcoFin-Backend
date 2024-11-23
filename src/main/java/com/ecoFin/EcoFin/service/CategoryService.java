@@ -5,7 +5,9 @@ import com.ecoFin.EcoFin.domain.category.dto.CategoryResponseDTO;
 import com.ecoFin.EcoFin.domain.category.entity.Category;
 import com.ecoFin.EcoFin.repository.CategoryRepository;
 
+import com.ecoFin.EcoFin.specification.CategorySpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +19,10 @@ public class CategoryService {
     @Autowired
     private CategoryRepository repository;
 
-    public List<CategoryResponseDTO> listAll() {
-        return repository.findAll()
+    public List<CategoryResponseDTO> listByUser(long userId) {
+        return repository.findAll(Specification
+                    .where(CategorySpecification.userIs(userId))
+                )
                 .stream()
                 .map(CategoryResponseDTO::fromCategory)
                 .collect(Collectors.toList());
