@@ -17,23 +17,23 @@ public class CategoryService {
     @Autowired
     private CategoryRepository repository;
 
-    public List<CategoryResponseDTO> listAllCategories() {
+    public List<CategoryResponseDTO> listAll() {
         return repository.findAll()
                 .stream()
                 .map(CategoryResponseDTO::fromCategory)
                 .collect(Collectors.toList());
     }
 
-    public Optional<Category> getCategoryById(long id) {
+    public Optional<Category> getById(long id) {
         if (!repository.existsById(id)) return Optional.empty();
         return repository.findById(id);
     }
 
-    public Category saveCategory(Category category) {
+    public Category save(Category category) {
         return repository.save(category);
     }
 
-    public Optional<Category> updateCategoryById(long id, CategoryRequestDTO request) {
+    public Optional<Category> updateById(long id, CategoryRequestDTO request) {
         if (!repository.existsById(id)) return Optional.empty();
 
         Category category = CategoryRequestDTO.newCategory(request);
@@ -42,7 +42,7 @@ public class CategoryService {
         return Optional.of(repository.save(category));
     }
 
-    public boolean deleteCategoryById(long id) {
+    public boolean deleteById(long id) {
         if(!repository.existsById(id)) return false;
         repository.deleteById(id);
         return true;

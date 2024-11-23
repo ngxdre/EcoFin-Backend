@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class CategoryResponseDTO {
     private long id;
     private String description;
-    private BigDecimal budget;
+    private double budget;
 
     public static CategoryResponseDTO fromCategory(Category category) {
         return CategoryResponseDTO.builder()

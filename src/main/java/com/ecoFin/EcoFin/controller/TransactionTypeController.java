@@ -20,31 +20,31 @@ public class TransactionTypeController {
     private TransactionTypeService service;
 
     @GetMapping
-    public ResponseEntity<List<TransactionTypeResponseDTO>> listAllTransactionTypes() {
-        return ResponseEntity.ok().body(service.listAllTransactionTypes());
+    public ResponseEntity<List<TransactionTypeResponseDTO>> listAll() {
+        return ResponseEntity.ok().body(service.listAll());
     }
 
     @GetMapping("/{transactionTypeId}")
-    public ResponseEntity<?> getTransactionTypeById(@PathVariable("transactionTypeId") long transactionTypeId) {
-        Optional<TransactionType> transactionType = service.getTransactionTypeById(transactionTypeId);
+    public ResponseEntity<?> getById(@PathVariable("transactionTypeId") long id) {
+        Optional<TransactionType> transactionType = service.getById(id);
         return transactionType.isPresent() ? ResponseEntity.ok().body(transactionType) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveTransactionType(@Valid @RequestBody TransactionTypeRequestDTO data) {
-        service.saveTransactionType(TransactionTypeRequestDTO.newTransactionType(data));
+    public ResponseEntity<Void> save(@Valid @RequestBody TransactionTypeRequestDTO data) {
+        service.save(TransactionTypeRequestDTO.newTransactionType(data));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{transactionTypeId}")
-    public ResponseEntity<Void> updateTransactionTypeById(@PathVariable("transactionTypeId") long transactionTypeId, @Valid @RequestBody TransactionTypeRequestDTO data) {
-        Optional<TransactionType> transactionType = service.updateTransactionTypeById(transactionTypeId, data);
+    public ResponseEntity<Void> updateById(@PathVariable("transactionTypeId") long id, @Valid @RequestBody TransactionTypeRequestDTO data) {
+        Optional<TransactionType> transactionType = service.updateById(id, data);
         return transactionType.isPresent() ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{transactionTypeId}")
-    public ResponseEntity<Void> deleteTransactionTypeById(@PathVariable("transactionTypeId") long transactionTypeId) {
-        boolean deleted = service.deleteTransactionTypeById(transactionTypeId);
+    public ResponseEntity<Void> deleteById(@PathVariable("transactionTypeId") long id) {
+        boolean deleted = service.deleteById(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

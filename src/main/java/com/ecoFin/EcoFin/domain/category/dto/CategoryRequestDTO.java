@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class CategoryRequestDTO {
     private long id;
     private String description;
-    private BigDecimal budget;
+    private double budget;
 
     public static Category newCategory(CategoryRequestDTO category) {
         return Category.builder()

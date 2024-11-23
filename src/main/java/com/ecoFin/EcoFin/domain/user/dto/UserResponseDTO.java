@@ -16,7 +16,7 @@ public class UserResponseDTO {
     private LocalDate birthDate;
     private String email;
     private String password;
-    private BigDecimal balance;
+    private double balance;
 
     public static UserResponseDTO fromUser(User user) {
         return UserResponseDTO.builder()
