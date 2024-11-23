@@ -19,14 +19,14 @@ public class CategoryController {
     @Autowired
     private CategoryService service;
 
-    @GetMapping
-    public ResponseEntity<List<CategoryResponseDTO>> listAll() {
-        return ResponseEntity.ok().body(service.listAll());
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<CategoryResponseDTO>> listAll(@PathVariable("userId") long userId) {
+        return ResponseEntity.ok().body(service.listByUser(userId));
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<?> getById(@PathVariable("categoryId") long categoryId) {
-        Optional<Category> category = service.getById(categoryId);
+    public ResponseEntity<?> getById(@PathVariable("categoryId") long id) {
+        Optional<Category> category = service.getById(id);
         return category.isPresent() ? ResponseEntity.ok().body(category) : ResponseEntity.notFound().build();
     }
 
@@ -38,16 +38,16 @@ public class CategoryController {
 
     @PutMapping("/{categoryId}")
     public ResponseEntity<Void> updateById(
-            @PathVariable("categoryId") long categoryId,
+            @PathVariable("categoryId") long id,
             @Valid @RequestBody CategoryRequestDTO data
     ) {
-        Optional<Category> category = service.updateById(categoryId, data);
+        Optional<Category> category = service.updateById(id, data);
         return category.isPresent() ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{categoryId}")
-    public ResponseEntity<Void> deleteById(@PathVariable("categoryId") long categoryId) {
-        boolean deleted = service.deleteById(categoryId);
+    public ResponseEntity<Void> deleteById(@PathVariable("categoryId") long id) {
+        boolean deleted = service.deleteById(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
