@@ -1,5 +1,6 @@
 package com.ecoFin.EcoFin.service;
 
+import com.ecoFin.EcoFin.domain.user.dto.UserLoginResponseDTO;
 import com.ecoFin.EcoFin.domain.user.dto.UserRequestDTO;
 import com.ecoFin.EcoFin.domain.user.dto.UserResponseDTO;
 import com.ecoFin.EcoFin.domain.user.entity.User;
@@ -62,13 +63,15 @@ public class UserService {
         return true;
     }
 
-    public String login(UserRequestDTO request) {
+    public UserLoginResponseDTO login(UserRequestDTO request) {
         Optional<User> userByEmail = repository.findByEmail(request.getEmail());
         if (userByEmail.isEmpty()) return null;
 
         User user = userByEmail.get();
         if (!encoder.matches(request.getPassword(), user.getPassword())) return null;
 
-        return tokenService.generateToken(request);
+        String token = tokenService.generateToken(request);
+
+        return UserLoginResponseDTO.fromUser(user, token);
     }
 }

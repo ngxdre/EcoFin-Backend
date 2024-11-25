@@ -1,5 +1,6 @@
 package com.ecoFin.EcoFin.controller;
 
+import com.ecoFin.EcoFin.domain.user.dto.UserLoginResponseDTO;
 import com.ecoFin.EcoFin.domain.user.dto.UserRequestDTO;
 import com.ecoFin.EcoFin.domain.user.dto.UserResponseDTO;
 import com.ecoFin.EcoFin.domain.user.entity.User;
@@ -50,7 +51,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequestDTO user){
-        String token = service.login(user);
-        return token == null ? ResponseEntity.notFound().build() : ResponseEntity.ok().body(token);
+        UserLoginResponseDTO response = service.login(user);
+        return response == null ? ResponseEntity.notFound().build() : ResponseEntity.ok().body(response);
     }
 }
