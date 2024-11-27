@@ -36,9 +36,15 @@ public class UserService {
         return repository.findById(id);
     }
 
-    public User save(User user) {
+    public boolean save(User user) {
+        if (repository.findByEmail(user.getEmail()).isPresent()) {
+            return false;
+        }
+
         user.setPassword(encoder.encode(user.getPassword()));
-        return repository.save(user);
+        repository.save(user);
+
+        return true;
     }
 
     public Optional<User> updateById(long id, UserRequestDTO request) {

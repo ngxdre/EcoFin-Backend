@@ -26,15 +26,15 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getById(@PathVariable("userId") long id) {
+    public ResponseEntity<Optional<User>> getById(@PathVariable("userId") long id) {
         Optional<User> user = service.getById(id);
         return user.isPresent() ? ResponseEntity.ok().body(user) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody UserRequestDTO data) {
-        service.save(UserRequestDTO.newUser(data));
-        return ResponseEntity.ok().build();
+        boolean inserted = service.save(UserRequestDTO.newUser(data));
+        return inserted ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{userId}")
